@@ -1,10 +1,11 @@
+//EXPRESS & NODE
 import express from 'express'
-import mongoose from 'mongoose'
-import { router } from './router'
 import path from 'node:path'
+import { router } from './router'
+//MONGO
+import mongoose from 'mongoose'
 
-
-//npm run dev and conect to mongoDB Compass
+//npm run dev
 mongoose.connect('mongodb://localhost:27017')
   .then(() => {
     const app = express()
