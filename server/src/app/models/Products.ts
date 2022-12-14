@@ -23,7 +23,7 @@ export const Products = model('Products', new Schema({
         type: String,
         required: true
       },
-      description: {
+      icon: {
         type: String,
         required: true
       }
