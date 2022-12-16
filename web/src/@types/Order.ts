@@ -1,7 +1,7 @@
 export interface OrderProps {
   _id: string
   table: string
-  status: string
+  status: 'Waiting' | 'Production' | 'Done'
   products: Array<ProductProps>
 }
 
