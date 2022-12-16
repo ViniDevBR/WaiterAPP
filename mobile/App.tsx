@@ -2,6 +2,8 @@ import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { Home } from './src/screens/Home'
+import 'intl'
+import 'intl/locale-data/jsonp/pt-BR'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
