@@ -1,23 +1,33 @@
-import { Overlay, Content, Header, Status, TypeOfOrder, OrderDetails } from './styles'
+//STYLED COMPONENTS
+import { Overlay, Content, Header, Status, TypeOfOrder, OrderDetails, Item, ProductDetails, Total, Actions, Button } from './styles'
+//IMG
 import closeIcon from '../../assets/images/close-icon.svg'
+//INTERFACE & UTILS
 import { OrderProps } from '../../@types/Order'
+import { formatCoin } from '../../utils/formatCoin'
+
 
 interface Props {
   visible: boolean
   order: OrderProps | null
+  closeModal: VoidFunction
 }
 
-export function Modal(props: Props) {
-  if(!props.visible || !props.order){
+export function Modal({ visible, order, closeModal }: Props) {
+  if(!visible || !order){
     return null
   }
+
+  const totalValue = order.products.reduce((totalSum, {product, quantity}) => {
+    return totalSum + (product.price * quantity)
+  }, 0)
 
   return(
     <Overlay>
       <Content>
         <Header>
-          <h3>Mesa {props.order.table}</h3>
-          <button>
+          <h3>Mesa {order.table}</h3>
+          <button onClick={closeModal}>
             <img src={closeIcon} alt="Fechar Menu" />
           </button>
         </Header>
@@ -26,16 +36,54 @@ export function Modal(props: Props) {
           <p>Status do pedido</p>
 
           <TypeOfOrder>
-            <span>🕒</span>
-            <strong>Fila de espera</strong>
+            <span>
+              {order.status === 'Waiting' && '🕒'}
+              {order.status === 'Production' && '👩‍🍳'}
+              {order.status === 'Done' && '✅'}
+            </span>
+            <strong>
+              {order.status === 'Waiting' && 'Fila de espera'}
+              {order.status === 'Production' && 'Em preparação'}
+              {order.status === 'Done' && 'Pronto'}
+            </strong>
           </TypeOfOrder>
         </Status>
 
         <OrderDetails>
           <strong>Itens</strong>
 
+          {order.products.map(({_id, product, quantity}) => {return (
+            <Item key={_id}>
+              <img
+                src={`http://localhost:4444/uploads/${product.imagePath}`}
+                alt={product.name}
+                width='56'
+                height='28'
+              />
+              <span className='quantity'>{quantity}x</span>
 
+              <ProductDetails>
+                <strong>{product.name}</strong>
+                <span>{formatCoin(product.price)}</span>
+              </ProductDetails>
+            </Item>
+          )})}
+
+          <Total>
+            <span>Total</span>
+            <strong>{formatCoin(totalValue)}</strong>
+          </Total>
         </OrderDetails>
+
+        <Actions>
+          <Button variation='secondary'>
+            <span>👩‍🍳</span>
+            <strong>Iniciar Produção</strong>
+          </Button>
+          <Button onClick={closeModal}>
+            Cancelar Pedido
+          </Button>
+        </Actions>
       </Content>
     </Overlay>
   )
