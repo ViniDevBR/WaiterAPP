@@ -17,6 +17,7 @@ export function Modal({ visible=false, onClose, onSave }: Props) {
   const [inputText, setInputText] = useState<string>('')
 
   function handleSave() {
+    setInputText('')
     onSave(inputText)
     onClose()
   }

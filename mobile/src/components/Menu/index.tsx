@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FlatList } from 'react-native'
 import { products } from '../../mocks/products'
 import { Text } from '../Text'
 import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton } from './styles'
 import { formatCoin } from '../../utils/formatCoin'
 import { PlusCircle } from '../Icons/PlusCircle'
+import { ProductModal } from '../ProductModal'
+import { IProduct } from '../../@types/Product'
 
 
 
 export function Menu() {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null)
 
+  function handleMenuOpen(product: IProduct) {
+    setIsModalVisible(true)
+    setSelectedProduct(product)
+  }
 
   return (
     <MenuContainer>
@@ -22,7 +30,7 @@ export function Menu() {
         renderItem={({item: product}) => {
 
           return(
-            <Product>
+            <Product onPress={() => handleMenuOpen(product)}>
               <Image
                 source={{uri: `http://192.168.0.4:4444/uploads/${product.imagePath}` }}
                 defaultSource={{uri: `http://192.168.0.4:4444/uploads/${product.imagePath}`}}
@@ -41,6 +49,12 @@ export function Menu() {
               </AddCartButton>
             </Product>
           )}}
+      />
+
+      <ProductModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        product={selectedProduct}
       />
     </MenuContainer>
   )

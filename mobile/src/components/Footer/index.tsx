@@ -1,16 +1,16 @@
-import { Button } from '../Button'
+import { ReactNode } from 'react'
 import { FooterContainer, FooterDetails } from './styles'
 
 
 interface Props {
-  onOpen: VoidFunction
+  children: ReactNode
 }
 
 export function Footer(props: Props) {
   return (
     <FooterContainer>
       <FooterDetails>
-        <Button onPress={props.onOpen} title='Novo Pedido'/>
+        {props.children}
       </FooterDetails>
     </FooterContainer>
   )
