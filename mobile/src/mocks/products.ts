@@ -36,4 +36,12 @@ export const products = [
     price: 7,
     ingredients: [],
   },
+  {
+    _id: '637fdsrfe276a381106c0f854cb3',
+    name: 'Suco de Laranja',
+    description: 'Suco de laranja selecionadas e importadas',
+    imagePath: '1671031121748-suco-de-laranja.png',
+    price: 12,
+    ingredients: [],
+  },
 ]
