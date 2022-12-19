@@ -1,21 +1,38 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Modal as ModalContainer, TouchableOpacity, Platform } from 'react-native'
 import { Button } from '../Button'
 import { Close } from '../Icons/Close'
 import { Text } from '../Text'
 import { Overlay, ModalBody, ModalHeader, Form, Input} from './styles'
 
-export function Modal() {
+
+interface Props {
+  visible?: boolean
+  onClose: VoidFunction
+  onSave: (table: string) => void
+}
+
+
+export function Modal({ visible=false, onClose, onSave }: Props) {
+  const [inputText, setInputText] = useState<string>('')
+
+  function handleSave() {
+    onSave(inputText)
+    onClose()
+  }
   return (
     <ModalContainer
+      visible={visible}
       transparent
+      animationType='fade'
+      onRequestClose={onClose}
     >
       <Overlay behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
         <ModalBody>
           <ModalHeader>
             <Text weight='600'>Informe a mesa</Text>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onClose}>
               <Close color='#666'/>
             </TouchableOpacity>
           </ModalHeader>
@@ -25,8 +42,9 @@ export function Modal() {
               placeholder='Informe o Numero da mesa'
               placeholderTextColor='#666'
               keyboardType='number-pad'
+              onChangeText={setInputText}
             />
-            <Button onPress={() => []} title='Salvar'/>
+            <Button disabled={inputText.length === 0} onPress={handleSave} title='Salvar'/>
           </Form>
         </ModalBody>
       </Overlay>

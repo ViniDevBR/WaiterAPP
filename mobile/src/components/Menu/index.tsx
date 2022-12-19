@@ -6,7 +6,11 @@ import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton
 import { formatCoin } from '../../utils/formatCoin'
 import { PlusCircle } from '../Icons/PlusCircle'
 
+
+
 export function Menu() {
+
+
   return (
     <MenuContainer>
       <FlatList
