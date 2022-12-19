@@ -37,12 +37,13 @@ export function OrdersBoard({ icon, orders, title }: Props) {
 
       {orders.length > 0 && (
         <OrderContainer>
-          {orders.map(order => {return(
-            <button type='button' key={order._id} onClick={() => handleOpenOrder(order)}>
-              <strong>Mesa {order.table}</strong>
-              <span>{order.products.length} itens</span>
-            </button>
-          )})}
+          {orders.map(order => {
+            return(
+              <button type='button' key={order._id} onClick={() => handleOpenOrder(order)}>
+                <strong>Mesa {order.table}</strong>
+                <span>{order.products.length} itens</span>
+              </button>
+            )})}
         </OrderContainer>
       )}
     </Board>

@@ -1,3 +1,5 @@
+//REACT
+import { useEffect } from 'react'
 //STYLED COMPONENTS
 import { Overlay, Content, Header, Status, TypeOfOrder, OrderDetails, Item, ProductDetails, Total, Actions, Button } from './styles'
 //IMG
@@ -5,7 +7,6 @@ import closeIcon from '../../assets/images/close-icon.svg'
 //INTERFACE & UTILS
 import { OrderProps } from '../../@types/Order'
 import { formatCoin } from '../../utils/formatCoin'
-import { useEffect } from 'react'
 
 
 interface Props {
@@ -29,7 +30,7 @@ export function Modal({ visible, order, closeModal }: Props) {
         closeModal()
       }
     }
-    
+
     document.addEventListener('keydown',handleKeyDown)
 
     return () => {
