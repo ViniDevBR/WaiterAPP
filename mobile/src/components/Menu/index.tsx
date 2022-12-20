@@ -9,8 +9,11 @@ import { ProductModal } from '../ProductModal'
 import { IProduct } from '../../@types/Product'
 
 
+interface Props {
+  onAddToCart: (product: IProduct) => void
+}
 
-export function Menu() {
+export function Menu({ onAddToCart }: Props) {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null)
 
@@ -18,12 +21,14 @@ export function Menu() {
     setIsModalVisible(true)
     setSelectedProduct(product)
   }
+  //192.168.0.4
+  //172.9.9.3
 
   return (
     <MenuContainer>
       <FlatList
         data={products}
-        contentContainerStyle={{paddingHorizontal: 24}}
+        contentContainerStyle={{paddingHorizontal: 24, paddingBottom: 30}}
         ItemSeparatorComponent={Separator}
         style={{marginTop: 32}}
         keyExtractor={product => product._id}
@@ -32,8 +37,8 @@ export function Menu() {
           return(
             <Product onPress={() => handleMenuOpen(product)}>
               <Image
-                source={{uri: `http://192.168.0.4:4444/uploads/${product.imagePath}` }}
-                defaultSource={{uri: `http://192.168.0.4:4444/uploads/${product.imagePath}`}}
+                source={{uri: `http://172.9.9.3:4444/uploads/${product.imagePath}` }}
+                defaultSource={{uri: `http://172.9.9.3:4444/uploads/${product.imagePath}`}}
               />
 
               <ProductDetails>
@@ -44,7 +49,7 @@ export function Menu() {
                 <Text size={14} color='#333' weight='600'>{formatCoin(product.price)}</Text>
               </ProductDetails>
 
-              <AddCartButton>
+              <AddCartButton onPress={() => onAddToCart(product)}>
                 <PlusCircle />
               </AddCartButton>
             </Product>
@@ -55,6 +60,7 @@ export function Menu() {
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
         product={selectedProduct}
+        onAddToCart={onAddToCart}
       />
     </MenuContainer>
   )

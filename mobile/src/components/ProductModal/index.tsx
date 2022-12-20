@@ -1,10 +1,15 @@
+//REACT
 import { FlatList, Modal } from 'react-native'
+//TYPES
 import { IProduct } from '../../@types/Product'
+//UTILS
 import { formatCoin } from '../../utils/formatCoin'
+//COMPONENTS
 import { Button } from '../Button'
 import { Close } from '../Icons/Close'
 import { Empty } from '../Icons/Empty'
 import { Text } from '../Text'
+//STYLED
 import { Image, CloseButton, Header, ModalBody, Ingredients, IngredientDetails, FooterContainer, FooterDetails, Price } from './styles'
 
 
@@ -12,11 +17,19 @@ interface Props {
   visible: boolean
   onClose: VoidFunction
   product: IProduct | null
+  onAddToCart: (product: IProduct) => void
 }
 
-export function ProductModal({ product, ...props}: Props) {
+export function ProductModal({ product, onAddToCart, ...props}: Props) {
   if(!product) {
     return null
+  }
+
+  //192.168.0.4
+  //172.9.9.3
+  function handleAddProduct() {
+    onAddToCart(product!)
+    props.onClose()
   }
 
   return (
@@ -27,7 +40,7 @@ export function ProductModal({ product, ...props}: Props) {
       onRequestClose={props.onClose}
     >
       <Image
-        source={{uri :`http://192.168.0.4:4444/uploads/${product?.imagePath}`}}
+        source={{uri :`http://172.9.9.3:4444/uploads/${product?.imagePath}`}}
       >
         <CloseButton onPress={props.onClose}>
           <Close />
@@ -49,6 +62,7 @@ export function ProductModal({ product, ...props}: Props) {
             ListEmptyComponent={<Empty />}
             showsVerticalScrollIndicator={false}
             style={{marginTop: 16}}
+            contentContainerStyle={{paddingBottom: 30}}
             renderItem={({item: product}) => {
               return(
                 <IngredientDetails>
@@ -69,7 +83,7 @@ export function ProductModal({ product, ...props}: Props) {
             </Text>
           </Price>
 
-          <Button title='Adicionar ao pedido'/>
+          <Button onPress={handleAddProduct} title='Adicionar ao pedido'/>
         </FooterDetails>
       </FooterContainer>
     </Modal>
