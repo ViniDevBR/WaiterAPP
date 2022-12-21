@@ -51,6 +51,9 @@ export function Home() {
       return newCartItem
     })
   }
+  function handleRemoveToCart() {
+    console.log('')
+  }
 
   return (
     <>
@@ -65,7 +68,7 @@ export function Home() {
           <Button onPress={() => setIsModalOpen(true)} title='Novo Pedido'/>
         )}
         {selectedTable && (
-          <Cart cartItem={cartItem}/>
+          <Cart cartItem={cartItem} onAdd={handleAddToCart} onRemove={handleRemoveToCart}/>
         )}
       </Footer>
 
