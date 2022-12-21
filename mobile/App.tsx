@@ -14,7 +14,7 @@ export default function App() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style="auto" />
+      <StatusBar style="dark" animated />
       {fontsLoaded ? <Home /> : null}
     </SafeAreaProvider>
   )
