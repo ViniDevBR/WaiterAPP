@@ -1,7 +1,7 @@
 //REACT
 import { FlatList, TouchableOpacity } from 'react-native'
 //STYLED
-import { ContainerItem, ProductCart, Actions, Image, Quantity, ProductDetails, Sumary, TotalContainer, TotalValue } from './styles'
+import { ContainerItem, ProductCart, Actions, Image, Quantity, ProductDetails, Sumary, TotalContainer } from './styles'
 //TYPES
 import { CartItemProps } from  '../../@types/Cart'
 import { Text } from '../Text'
@@ -9,14 +9,17 @@ import { formatCoin } from '../../utils/formatCoin'
 import { PlusCircle } from '../Icons/PlusCircle'
 import { MinusCircle } from '../Icons/MinusCircle'
 import { Button } from '../Button'
+import { IProduct } from '../../@types/Product'
 
 
 interface CartProps {
   cartItem: CartItemProps[]
+  onAdd: (product: IProduct) => void
+  onRemove: (product: IProduct) => void
 }
 
-export function Cart({ cartItem }: CartProps) {
-
+export function Cart({ cartItem, onAdd, onRemove }: CartProps) {
+  console.log(cartItem)
   return (
     <>
       {cartItem.length > 0 && (
@@ -45,10 +48,16 @@ export function Cart({ cartItem }: CartProps) {
                 </ProductCart>
 
                 <Actions>
-                  <TouchableOpacity style={{paddingHorizontal: 10}}>
+                  <TouchableOpacity
+                    style={{paddingHorizontal: 10}}
+                    onPress={() => onAdd(product.product)}
+                  >
                     <PlusCircle />
                   </TouchableOpacity>
-                  <TouchableOpacity style={{paddingHorizontal: 10}}>
+                  <TouchableOpacity
+                    style={{paddingHorizontal: 10}}
+                    onPress={() => onRemove(product.product)}
+                  >
                     <MinusCircle />
                   </TouchableOpacity>
                 </Actions>
