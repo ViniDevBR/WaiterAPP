@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+//REACT
+import { useState } from 'react'
 import { FlatList } from 'react-native'
+//MOCKS
 import { products } from '../../mocks/products'
+//COMPONENTS
 import { Text } from '../Text'
-import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton } from './styles'
-import { formatCoin } from '../../utils/formatCoin'
 import { PlusCircle } from '../Icons/PlusCircle'
 import { ProductModal } from '../ProductModal'
+//STYLED
+import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton, CenteredContainer } from './styles'
+//UTILS
+import { formatCoin } from '../../utils/formatCoin'
+//TYPES
 import { IProduct } from '../../@types/Product'
+import { Empty } from '../Icons/Empty'
 
 
 interface Props {
@@ -30,6 +37,14 @@ export function Menu({ onAddToCart }: Props) {
         data={products}
         contentContainerStyle={{paddingHorizontal: 24, paddingBottom: 30}}
         ItemSeparatorComponent={Separator}
+        ListEmptyComponent={() => {
+          return (
+            <CenteredContainer>
+              <Empty />
+              <Text color='#666' style={{marginTop: 24}}>Nenhum produto foi encontrado!</Text>
+            </CenteredContainer>
+          )
+        }}
         style={{marginTop: 32}}
         keyExtractor={product => product._id}
         renderItem={({item: product}) => {
@@ -37,8 +52,8 @@ export function Menu({ onAddToCart }: Props) {
           return(
             <Product onPress={() => handleMenuOpen(product)}>
               <Image
-                source={{uri: `http://172.9.9.3:4444/uploads/${product.imagePath}` }}
-                defaultSource={{uri: `http://172.9.9.3:4444/uploads/${product.imagePath}`}}
+                source={{uri: `http://172.9.9.5:4444/uploads/${product.imagePath}` }}
+                defaultSource={{uri: `http://172.9.9.5:4444/uploads/${product.imagePath}`}}
               />
 
               <ProductDetails>

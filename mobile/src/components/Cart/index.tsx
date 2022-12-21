@@ -1,25 +1,44 @@
 //REACT
 import { FlatList, TouchableOpacity } from 'react-native'
+import { useState } from 'react'
 //STYLED
 import { ContainerItem, ProductCart, Actions, Image, Quantity, ProductDetails, Sumary, TotalContainer } from './styles'
 //TYPES
 import { CartItemProps } from  '../../@types/Cart'
+import { IProduct } from '../../@types/Product'
+//COMPONENTS
 import { Text } from '../Text'
-import { formatCoin } from '../../utils/formatCoin'
 import { PlusCircle } from '../Icons/PlusCircle'
 import { MinusCircle } from '../Icons/MinusCircle'
 import { Button } from '../Button'
-import { IProduct } from '../../@types/Product'
+import { OrderConfirmed } from '../OrderConfirmed'
+//UTILS
+import { formatCoin } from '../../utils/formatCoin'
 
 
 interface CartProps {
   cartItem: CartItemProps[]
   onAdd: (product: IProduct) => void
   onRemove: (product: IProduct) => void
+  onConfirmedOrder: VoidFunction
 }
 
-export function Cart({ cartItem, onAdd, onRemove }: CartProps) {
-  console.log(cartItem)
+export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder }: CartProps) {
+  const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
+  const totalPrice = cartItem.reduce((acc, cartItem) => {
+    return acc + cartItem.quantity * cartItem.product.price
+  }, 0)
+
+  function handleOrderConfirmed() {
+    setIsModalVisible(true)
+  }
+  function handleOkConfirm() {
+    setIsModalVisible(false)
+    onConfirmedOrder()
+  }
+
   return (
     <>
       {cartItem.length > 0 && (
@@ -32,7 +51,7 @@ export function Cart({ cartItem, onAdd, onRemove }: CartProps) {
               <ContainerItem>
                 <ProductCart>
                   <Image
-                    source={{uri :`http://172.9.9.3:4444/uploads/${product.product.imagePath}`}}
+                    source={{uri :`http://172.9.9.5:4444/uploads/${product.product.imagePath}`}}
                   />
                   <Quantity>
                     <Text size={14} color='#666'>
@@ -71,15 +90,22 @@ export function Cart({ cartItem, onAdd, onRemove }: CartProps) {
           {cartItem.length > 0 ? (
             <>
               <Text color='#666'>Total</Text>
-              <Text size={20} weight='600'>{formatCoin(200)}</Text>
+              <Text size={20} weight='600'>{formatCoin(totalPrice)}</Text>
             </>
           ) : (
             <Text color='#999'>Seu carrinho esta vazio!</Text>
           )}
         </TotalContainer>
 
-        <Button disabled={cartItem.length === 0} title='Confirmar Pedido'/>
+        <Button
+          disabled={cartItem.length === 0}
+          title='Confirmar Pedido'
+          onPress={handleOrderConfirmed}
+          isLoading={isLoading}
+        />
       </Sumary>
+
+      <OrderConfirmed onCloseModal={handleOkConfirm} visible={isModalVisible}/>
     </>
   )
 }

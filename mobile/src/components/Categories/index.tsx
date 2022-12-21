@@ -18,8 +18,7 @@ export function Categories() {
   return (
     <CategorieContainer>
       <FlatList
-        style={{borderWidth: 1, borderColor: 'black'}}
-        contentContainerStyle={{ marginLeft: 10 }}
+        contentContainerStyle={{ marginLeft: 24 }}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={categories}

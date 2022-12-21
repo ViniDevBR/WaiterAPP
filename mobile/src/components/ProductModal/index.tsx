@@ -59,7 +59,14 @@ export function ProductModal({ product, onAddToCart, ...props}: Props) {
           <FlatList
             data={product?.ingredients}
             keyExtractor={ingredient => ingredient._id}
-            ListEmptyComponent={<Empty />}
+            ListEmptyComponent={() => {
+              return (
+                <>
+                  <Empty />
+                  <Text color='#666'>Nenhum ingrediente foi encontrado!</Text>
+                </>
+              )
+            }}
             showsVerticalScrollIndicator={false}
             style={{marginTop: 16}}
             contentContainerStyle={{paddingBottom: 30}}

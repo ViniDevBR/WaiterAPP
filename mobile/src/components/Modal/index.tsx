@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { StatusBar } from 'expo-status-bar'
 import { Modal as ModalContainer, TouchableOpacity, Platform } from 'react-native'
 import { Button } from '../Button'
 import { Close } from '../Icons/Close'
@@ -21,6 +22,7 @@ export function Modal({ visible=false, onClose, onSave }: Props) {
     onSave(inputText)
     onClose()
   }
+
   return (
     <ModalContainer
       visible={visible}
@@ -28,6 +30,7 @@ export function Modal({ visible=false, onClose, onSave }: Props) {
       animationType='fade'
       onRequestClose={onClose}
     >
+      <StatusBar animated style="light" backgroundColor="rgba(0, 0, 0, 0.6)" />
       <Overlay behavior={Platform.OS === 'android' ? 'height' : 'padding'}>
         <ModalBody>
           <ModalHeader>
