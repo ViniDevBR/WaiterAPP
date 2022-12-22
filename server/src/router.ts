@@ -60,13 +60,27 @@ router.delete('/orders/:orderId', deleteOrCancelOrder)
 //ROUTES FOR ERRORS DURING DEVELOPING
 // router.delete('/products/:id', async (req, res) => {
 //   const { id } = req.params
-//   const x = await Products.deleteOne().where('product').equals(id)
+//   const x = await Products.findByIdAndDelete(id)
+//   res.json(x)
+// })
+
+// router.patch('/products/:id',async (req, res) => {
+//   const { id } = req.params
+//   const { description } = req.body
+//   const x = await Products.findByIdAndUpdate(id, { description })
 //   res.json(x)
 // })
 
 // router.patch('/categories/:id',async (req, res) => {
 //   const { id } = req.params
-//   const { name } = req.body
-//   const x = await Category.findByIdAndUpdate(id, { name })
+//   const { description } = req.body
+//   const x = await Category.findByIdAndUpdate(id, { description })
 //   res.json(x)
+// })
+
+// router.delete('/categories/:id',async (req, res) => {
+//   const { id } = req.params
+//   await Category.findByIdAndDelete(id)
+
+//   res.sendStatus(204)
 // })
