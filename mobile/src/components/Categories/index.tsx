@@ -27,7 +27,7 @@ export function Categories({ categories, onSelectCategory }: Props) {
   return (
     <CategorieContainer>
       <FlatList
-        contentContainerStyle={{ marginLeft: 24 }}
+        contentContainerStyle={{ paddingHorizontal: 24 }}
         horizontal
         showsHorizontalScrollIndicator={false}
         data={categories}
