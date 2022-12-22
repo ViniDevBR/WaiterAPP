@@ -160,6 +160,7 @@ export function Home() {
         )}
         {selectedTable && (
           <Cart
+            selectedTable={selectedTable}
             cartItem={cartItem}
             onAdd={handleAddToCart}
             onRemove={handleDecrementToCart}
