@@ -1,35 +1,33 @@
 //REACT
 import { useState } from 'react'
 import { FlatList } from 'react-native'
-//MOCKS
-import { products } from '../../mocks/products'
 //COMPONENTS
 import { Text } from '../Text'
 import { PlusCircle } from '../Icons/PlusCircle'
 import { ProductModal } from '../ProductModal'
+
 //STYLED
-import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton, CenteredContainer } from './styles'
+import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton } from './styles'
 //UTILS
 import { formatCoin } from '../../utils/formatCoin'
 //TYPES
 import { IProduct } from '../../@types/Product'
-import { Empty } from '../Icons/Empty'
+
 
 
 interface Props {
   onAddToCart: (product: IProduct) => void
+  products: IProduct[]
 }
 
-export function Menu({ onAddToCart }: Props) {
+export function Menu({ onAddToCart, products }: Props) {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [selectedProduct, setSelectedProduct] = useState<IProduct | null>(null)
+  const [selectedProduct, setSelectedProduct] = useState<IProduct>({} as IProduct)
 
   function handleMenuOpen(product: IProduct) {
     setIsModalVisible(true)
     setSelectedProduct(product)
   }
-  //192.168.0.4
-  //172.9.9.3
 
   return (
     <MenuContainer>
@@ -37,14 +35,6 @@ export function Menu({ onAddToCart }: Props) {
         data={products}
         contentContainerStyle={{paddingHorizontal: 24, paddingBottom: 30}}
         ItemSeparatorComponent={Separator}
-        ListEmptyComponent={() => {
-          return (
-            <CenteredContainer>
-              <Empty />
-              <Text color='#666' style={{marginTop: 24}}>Nenhum produto foi encontrado!</Text>
-            </CenteredContainer>
-          )
-        }}
         style={{marginTop: 32}}
         keyExtractor={product => product._id}
         renderItem={({item: product}) => {

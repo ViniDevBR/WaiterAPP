@@ -5,11 +5,12 @@ import { Container } from './styles'
 interface Props extends TouchableOpacityProps{
   title: string
   isLoading?: boolean
+  disabled?: boolean
 }
 
-export function Button({ title, isLoading=false, ...props }: Props) {
+export function Button({ title, isLoading, disabled,  ...props }: Props) {
   return (
-    <Container {...props} disabled={isLoading}>
+    <Container {...props} disabled={isLoading || disabled}>
       {isLoading ?
         <ActivityIndicator color='#fff'/>
         :

@@ -16,7 +16,7 @@ import { Image, CloseButton, Header, ModalBody, Ingredients, IngredientDetails, 
 interface Props {
   visible: boolean
   onClose: VoidFunction
-  product: IProduct | null
+  product: IProduct
   onAddToCart: (product: IProduct) => void
 }
 
@@ -25,8 +25,6 @@ export function ProductModal({ product, onAddToCart, ...props}: Props) {
     return null
   }
 
-  //192.168.0.4
-  //172.9.9.3
   function handleAddProduct() {
     onAddToCart(product!)
     props.onClose()
@@ -40,7 +38,7 @@ export function ProductModal({ product, onAddToCart, ...props}: Props) {
       onRequestClose={props.onClose}
     >
       <Image
-        source={{uri :`http://172.9.9.3:4444/uploads/${product?.imagePath}`}}
+        source={{uri :`http://172.9.9.5:4444/uploads/${product.imagePath}`}}
       >
         <CloseButton onPress={props.onClose}>
           <Close />
