@@ -14,6 +14,8 @@ import { Button } from '../Button'
 import { OrderConfirmed } from '../OrderConfirmed'
 //UTILS
 import { formatCoin } from '../../utils/formatCoin'
+//BACK END
+import { API } from '../../services/api'
 
 
 interface CartProps {
@@ -21,9 +23,10 @@ interface CartProps {
   onAdd: (product: IProduct) => void
   onRemove: (product: IProduct) => void
   onConfirmedOrder: VoidFunction
+  selectedTable: string
 }
 
-export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder }: CartProps) {
+export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder, selectedTable }: CartProps) {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -31,8 +34,19 @@ export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder }: CartProps)
     return acc + cartItem.quantity * cartItem.product.price
   }, 0)
 
-  function handleOrderConfirmed() {
+  async function handleOrderConfirmed() {
+    setIsLoading(true)
+    const infos = {
+      table: selectedTable,
+      products: cartItem.map(cartItem => ({
+        product: cartItem.product._id,
+        quantity: cartItem.quantity
+      }))
+    }
+
+    await API.post('/orders', infos)
     setIsModalVisible(true)
+    setIsLoading(false)
   }
   function handleOkConfirm() {
     setIsModalVisible(false)
