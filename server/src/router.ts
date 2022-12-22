@@ -13,6 +13,8 @@ import { deleteOrCancelOrder } from './app/useCases/order/deleteOrCancelOrder'
 import { listOrders } from './app/useCases/order/listOrders'
 import { createProduct } from './app/useCases/product/createProduct'
 import { listProducts } from './app/useCases/product/listProducts'
+import { Category } from './app/models/Category'
+import { Products } from './app/models/Products'
 
 export const router = Router()
 
@@ -59,5 +61,12 @@ router.delete('/orders/:orderId', deleteOrCancelOrder)
 // router.delete('/products/:id', async (req, res) => {
 //   const { id } = req.params
 //   const x = await Products.deleteOne().where('product').equals(id)
+//   res.json(x)
+// })
+
+// router.patch('/categories/:id',async (req, res) => {
+//   const { id } = req.params
+//   const { name } = req.body
+//   const x = await Category.findByIdAndUpdate(id, { name })
 //   res.json(x)
 // })
