@@ -6,6 +6,7 @@ import { router } from './router'
 import mongoose from 'mongoose'
 
 //npm run dev
+mongoose.set('strictQuery', true)
 mongoose.connect('mongodb://localhost:27017')
   .then(() => {
     const app = express()
