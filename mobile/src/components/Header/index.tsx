@@ -1,4 +1,6 @@
+//REACT
 import { TouchableOpacity } from 'react-native'
+//COMPONENTS
 import { Text } from '../Text'
 import { Container, ContentHeader, TitleHeader, TableNumber } from './styles'
 

@@ -5,7 +5,6 @@ import { FlatList } from 'react-native'
 import { Text } from '../Text'
 import { PlusCircle } from '../Icons/PlusCircle'
 import { ProductModal } from '../ProductModal'
-
 //STYLED
 import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton } from './styles'
 //UTILS
@@ -43,7 +42,6 @@ export function Menu({ onAddToCart, products }: Props) {
             <Product onPress={() => handleMenuOpen(product)}>
               <Image
                 source={{uri: `http://172.9.9.5:4444/uploads/${product.imagePath}` }}
-                defaultSource={{uri: `http://172.9.9.5:4444/uploads/${product.imagePath}`}}
               />
 
               <ProductDetails>

@@ -1,4 +1,6 @@
+//REACT
 import { ActivityIndicator, TouchableOpacityProps } from 'react-native'
+//COMPONENTS
 import { Text } from '../Text'
 import { Container } from './styles'
 

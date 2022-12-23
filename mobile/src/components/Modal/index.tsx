@@ -1,9 +1,12 @@
+//REACT
 import React, { useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
 import { Modal as ModalContainer, TouchableOpacity, Platform } from 'react-native'
+//COMPONENTS
 import { Button } from '../Button'
 import { Close } from '../Icons/Close'
 import { Text } from '../Text'
+//STYLED
 import { Overlay, ModalBody, ModalHeader, Form, Input} from './styles'
 
 
