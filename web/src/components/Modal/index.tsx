@@ -13,9 +13,11 @@ interface Props {
   visible: boolean
   order: OrderProps | null
   closeModal: VoidFunction
+  onCancelOrder: () => Promise<void>
+  loading: boolean
 }
 
-export function Modal({ visible, order, closeModal }: Props) {
+export function Modal({ visible, order, closeModal, onCancelOrder, loading }: Props) {
   if(!visible || !order){
     return null
   }
@@ -68,22 +70,23 @@ export function Modal({ visible, order, closeModal }: Props) {
         <OrderDetails>
           <strong>Itens</strong>
 
-          {order.products.map(({_id, product, quantity}) => {return (
-            <Item key={_id}>
-              <img
-                src={`http://localhost:4444/uploads/${product.imagePath}`}
-                alt={product.name}
-                width='56'
-                height='28'
-              />
-              <span className='quantity'>{quantity}x</span>
+          {order.products.map(({_id, product, quantity}) => {
+            return (
+              <Item key={_id}>
+                <img
+                  src={`http://localhost:4444/uploads/${product.imagePath}`}
+                  alt={product.name}
+                  width='56'
+                  height='28'
+                />
+                <span className='quantity'>{quantity}x</span>
 
-              <ProductDetails>
-                <strong>{product.name}</strong>
-                <span>{formatCoin(product.price)}</span>
-              </ProductDetails>
-            </Item>
-          )})}
+                <ProductDetails>
+                  <strong>{product.name}</strong>
+                  <span>{formatCoin(product.price)}</span>
+                </ProductDetails>
+              </Item>
+            )})}
 
           <Total>
             <span>Total</span>
@@ -92,11 +95,11 @@ export function Modal({ visible, order, closeModal }: Props) {
         </OrderDetails>
 
         <Actions>
-          <Button variation='secondary'>
+          <Button variation='secondary' disabled={loading}>
             <span>👩‍🍳</span>
             <strong>Iniciar Produção</strong>
           </Button>
-          <Button onClick={closeModal}>
+          <Button disabled={loading} onClick={onCancelOrder}>
             Cancelar Pedido
           </Button>
         </Actions>

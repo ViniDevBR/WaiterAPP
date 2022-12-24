@@ -7,7 +7,6 @@ export const Board = styled.section`
   border-radius: 16px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   width: 100%;
 

@@ -141,6 +141,11 @@ export const Button = styled.button<TButton>`
   display: flex;
   justify-content: center;
 
+  ${({disabled}) => disabled && css`
+    opacity: 0.5;
+    cursor: not-allowed;
+  `}
+
   ${(props) => props.variation === 'secondary' && css`
     background-color: #333;
     border-radius: 48px;
