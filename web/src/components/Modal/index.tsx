@@ -15,9 +15,10 @@ interface Props {
   closeModal: VoidFunction
   onCancelOrder: () => Promise<void>
   loading: boolean
+  onChangeStatus: () => Promise<void>
 }
 
-export function Modal({ visible, order, closeModal, onCancelOrder, loading }: Props) {
+export function Modal({ order, visible, ...props }: Props) {
   if(!visible || !order){
     return null
   }
@@ -29,7 +30,7 @@ export function Modal({ visible, order, closeModal, onCancelOrder, loading }: Pr
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
       if(event.key === 'Escape'){
-        closeModal()
+        props.closeModal()
       }
     }
 
@@ -38,14 +39,14 @@ export function Modal({ visible, order, closeModal, onCancelOrder, loading }: Pr
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
     }
-  },[closeModal])
+  },[props.closeModal])
 
   return(
     <Overlay>
       <Content>
         <Header>
           <h3>Mesa {order.table}</h3>
-          <button onClick={closeModal}>
+          <button onClick={props.closeModal}>
             <img src={closeIcon} alt="Fechar Menu" />
           </button>
         </Header>
@@ -95,11 +96,19 @@ export function Modal({ visible, order, closeModal, onCancelOrder, loading }: Pr
         </OrderDetails>
 
         <Actions>
-          <Button variation='secondary' disabled={loading}>
-            <span>👩‍🍳</span>
-            <strong>Iniciar Produção</strong>
-          </Button>
-          <Button disabled={loading} onClick={onCancelOrder}>
+          {order.status !== 'Done' && (
+            <Button onClick={props.onChangeStatus} variation='secondary' disabled={props.loading}>
+              <span>
+                {order.status === 'Waiting' && '👩‍🍳'}
+                {order.status === 'Production' && '✅'}
+              </span>
+              <strong>
+                {order.status === 'Waiting' && 'Iniciar Produção'}
+                {order.status === 'Production' && 'Finalizar Pedido'}
+              </strong>
+            </Button>
+          )}
+          <Button disabled={props.loading} onClick={props.onCancelOrder}>
             Cancelar Pedido
           </Button>
         </Actions>

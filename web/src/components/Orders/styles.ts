@@ -6,6 +6,6 @@ export const Container = styled.main`
   margin: 40px auto;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   gap: 32px;
 `
