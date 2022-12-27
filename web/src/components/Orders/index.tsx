@@ -6,10 +6,21 @@ import { OrdersBoard } from '../OrdersBoard'
 import { Container } from './styles'
 //BACK END
 import { API } from '../../services/api'
+import socketIo from 'socket.io-client'
 
 
 export function Orders() {
   const [orders, setOrders] = useState<Array<OrderProps>>([])
+
+  useEffect(() => {
+    const socket = socketIo('http://localhost:4444', {
+      transports: ['websocket']
+    })
+
+    socket.on('newOrder', (order: OrderProps) => {
+      setOrders(prevState => prevState.concat(order))
+    })
+  },[])
 
   useEffect(() => {
     API.get('/orders')
