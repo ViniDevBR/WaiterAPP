@@ -24,10 +24,10 @@ export function Orders() {
     setOrders(prevState => prevState.filter(order => order._id !== orderId))
   }
 
-  function handleChangeOrderStatus(orderId: string, status: OrderProps['status']) {
+  function handleChangeOrderStatus(orderId: string, newStatus: OrderProps['status']) {
     setOrders(prevState => prevState.map(order => (
       order._id === orderId
-        ? {...order, status}
+        ? {...order, status: newStatus}
         : order
     )))
   }

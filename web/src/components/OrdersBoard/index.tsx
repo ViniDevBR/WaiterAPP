@@ -14,7 +14,7 @@ interface Props {
   icon: string
   orders: Array<OrderProps>
   onCancelUpdate: (orderId: string) => void
-  onChangeUpdate: (orderId: string, status: OrderProps['status']) => void
+  onChangeUpdate: (orderId: string, newStatus: OrderProps['status']) => void
 }
 
 export function OrdersBoard({orders, ...props}: Props) {
