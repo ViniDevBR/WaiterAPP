@@ -1,12 +1,12 @@
 //REACT
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { ActivityIndicator } from 'react-native'
 //COMPONENTS
 import { Header } from '../../components/Header'
 import { Categories } from '../../components/Categories'
 import { Menu } from '../../components/Menu'
 import { Footer } from '../../components/Footer'
-import { Modal } from '../../components/Modal'
+import { ModalTable } from '../../components/ModalTable'
 import { Button } from '../../components/Button'
 import { Cart } from '../../components/Cart'
 import { Text } from '../../components/Text'
@@ -16,9 +16,10 @@ import { Container, CenteredContainer } from './styles'
 //TYPES
 import { CartItemProps } from '../../@types/Cart'
 import { IProduct } from '../../@types/Product'
-import { CategoriesItem } from '../../@types/Category'
 //BACK END
 import { API } from '../../services/api'
+//HOOKS
+import { useMenu } from '../../hooks/useMenu'
 
 
 
@@ -26,10 +27,9 @@ export function Home() {
   const [selectedTable, setSelectedTable] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
   const [cartItem, setCartItem] = useState<CartItemProps[]>([])
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [categories, setCategories] = useState<CategoriesItem[]>([])
-  const [products, setProducts] = useState<IProduct[]>([])
   const [isLoadingProducts, setIsLoadingProducts] = useState<boolean>(false)
+
+  const { isLoading, products, setProducts } = useMenu()
 
   function handleSavedTable(table: string) {
     setSelectedTable(table)
@@ -99,24 +99,6 @@ export function Home() {
     setProducts(data)
     setIsLoadingProducts(false)
   }
-  useEffect(() => {
-    try {
-      Promise.all([
-        API.get('/products'),
-        API.get('/categories')
-      ])
-        .then(([productResponse, categoriesResponse]) => {
-          setCategories(categoriesResponse.data)
-          setProducts(productResponse.data)
-          setIsLoading(false)
-        })
-
-    } catch (error) {
-      console.log(error)
-    } finally {
-      setIsLoading(false)
-    }
-  },[])
 
   return (
     <>
@@ -129,7 +111,7 @@ export function Home() {
           </CenteredContainer>
         ):(
           <>
-            <Categories categories={categories} onSelectCategory={handleSelectedCategory}/>
+            <Categories onSelectCategory={handleSelectedCategory}/>
             {isLoadingProducts ? (
               <CenteredContainer>
                 <ActivityIndicator size='large' color='#d73035'/>
@@ -137,7 +119,7 @@ export function Home() {
             ) : (
               <>
                 {products.length > 0 ? (
-                  <Menu onAddToCart={handleAddToCart} products={products}/>
+                  <Menu onAddToCart={handleAddToCart}/>
                 ) : (
                   <CenteredContainer>
                     <Empty />
@@ -170,7 +152,7 @@ export function Home() {
       </Footer>
 
 
-      <Modal
+      <ModalTable
         visible={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSavedTable}
