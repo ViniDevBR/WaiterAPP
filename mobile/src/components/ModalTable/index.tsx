@@ -17,7 +17,7 @@ interface Props {
 }
 
 
-export function Modal({ visible=false, onClose, onSave }: Props) {
+export function ModalTable({ visible=false, onClose, onSave }: Props) {
   const [inputText, setInputText] = useState<string>('')
 
   function handleSave() {

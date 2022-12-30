@@ -11,17 +11,20 @@ import { MenuContainer, Product, ProductDetails, Image, Separator, AddCartButton
 import { formatCoin } from '../../utils/formatCoin'
 //TYPES
 import { IProduct } from '../../@types/Product'
+import { useMenu } from '../../hooks/useMenu'
+import { globalUrl } from '../../services/api'
 
 
 
 interface Props {
   onAddToCart: (product: IProduct) => void
-  products: IProduct[]
 }
 
-export function Menu({ onAddToCart, products }: Props) {
+export function Menu({ onAddToCart }: Props) {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
   const [selectedProduct, setSelectedProduct] = useState<IProduct>({} as IProduct)
+
+  const { products } = useMenu()
 
   function handleMenuOpen(product: IProduct) {
     setIsModalVisible(true)
@@ -32,8 +35,8 @@ export function Menu({ onAddToCart, products }: Props) {
     <MenuContainer>
       <FlatList
         data={products}
-        contentContainerStyle={{paddingHorizontal: 24, paddingBottom: 30}}
-        ItemSeparatorComponent={Separator}
+        contentContainerStyle={{ paddingHorizontal: 24, paddingBottom: 30 }}
+        ItemSeparatorComponent={ Separator }
         style={{marginTop: 32}}
         keyExtractor={product => product._id}
         renderItem={({item: product}) => {
@@ -41,7 +44,7 @@ export function Menu({ onAddToCart, products }: Props) {
           return(
             <Product onPress={() => handleMenuOpen(product)}>
               <Image
-                source={{uri: `http://172.9.9.5:4444/uploads/${product.imagePath}` }}
+                source={{uri: `${globalUrl}/uploads/${product.imagePath}` }}
               />
 
               <ProductDetails>

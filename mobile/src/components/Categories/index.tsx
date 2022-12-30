@@ -4,17 +4,17 @@ import { FlatList } from 'react-native'
 //STYLED
 import { Text } from '../Text'
 import { CategorieContainer, Category, Icon } from './styles'
-//TYPES
-import { CategoriesItem } from '../../@types/Category'
+//HOOK
+import { useMenu } from '../../hooks/useMenu'
 
 
 interface Props {
-  categories: CategoriesItem[]
   onSelectCategory: (categoryId: string) => Promise<void>
 }
 
-export function Categories({ categories, onSelectCategory }: Props) {
+export function Categories({ onSelectCategory }: Props) {
   const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const { categories } = useMenu()
 
   function handleSelectedCategory(categoryId: string) {
     const category = selectedCategory === categoryId ? '' : categoryId

@@ -15,7 +15,7 @@ import { OrderConfirmed } from '../OrderConfirmed'
 //UTILS
 import { formatCoin } from '../../utils/formatCoin'
 //BACK END
-import { API } from '../../services/api'
+import { API, globalUrl } from '../../services/api'
 
 
 interface CartProps {
@@ -28,14 +28,14 @@ interface CartProps {
 
 export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder, selectedTable }: CartProps) {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [isLoadingCart, setIsLoadingCart] = useState<boolean>(false)
 
   const totalPrice = cartItem.reduce((acc, cartItem) => {
     return acc + cartItem.quantity * cartItem.product.price
   }, 0)
 
   async function handleOrderConfirmed() {
-    setIsLoading(true)
+    setIsLoadingCart(true)
     const infos = {
       table: selectedTable,
       products: cartItem.map(cartItem => ({
@@ -46,7 +46,7 @@ export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder, selectedTabl
 
     await API.post('/orders', infos)
     setIsModalVisible(true)
-    setIsLoading(false)
+    setIsLoadingCart(false)
   }
   function handleOkConfirm() {
     setIsModalVisible(false)
@@ -65,7 +65,7 @@ export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder, selectedTabl
               <ContainerItem>
                 <ProductCart>
                   <Image
-                    source={{uri :`http://172.9.9.5:4444/uploads/${product.product.imagePath}`}}
+                    source={{uri :`${globalUrl}/uploads/${product.product.imagePath}`}}
                   />
                   <Quantity>
                     <Text size={14} color='#666'>
@@ -115,7 +115,7 @@ export function Cart({ cartItem, onAdd, onRemove, onConfirmedOrder, selectedTabl
           disabled={cartItem.length === 0}
           title='Confirmar Pedido'
           onPress={handleOrderConfirmed}
-          isLoading={isLoading}
+          isLoading={isLoadingCart}
         />
       </Sumary>
 
